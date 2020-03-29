@@ -1,11 +1,11 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const settings = {
-  distPath: path.join(__dirname, "dist"),
-  srcPath: path.join(__dirname, "src")
+  distPath: path.join(__dirname, 'dist'),
+  srcPath: path.join(__dirname, 'src'),
 };
 
 function srcPathExtend(subpath) {
@@ -13,62 +13,62 @@ function srcPathExtend(subpath) {
 }
 
 module.exports = (env, options) => {
-  const isDevMode = options.mode === "development";
+  const isDevMode = options.mode === 'development';
 
   return {
-    devtool: isDevMode ? "source-map" : false,
+    devtool: isDevMode ? 'source-map' : false,
     resolve: {
-      extensions: [".ts", ".tsx", ".js"]
+      extensions: ['.js'],
     },
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: ["babel-loader", "ts-loader", "tslint-loader"]
+          test: /\.js?$/,
+          use: ['babel-loader'],
         },
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, "css-loader"]
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.(ttf|eot|woff|woff2)$/,
           use: {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              name: "fonts/[name].[ext]"
-            }
-          }
+              name: 'fonts/[name].[ext]',
+            },
+          },
         },
         {
           test: /\.(jpe?g|png|gif|svg|ico)$/i,
           use: [
             {
-              loader: "file-loader",
+              loader: 'file-loader',
               options: {
-                outputPath: "assets/"
-              }
-            }
-          ]
-        }
-      ]
+                outputPath: 'assets/',
+              },
+            },
+          ],
+        },
+      ],
     },
     plugins: [
       new CleanWebpackPlugin({
-        verbose: true
+        verbose: true,
       }),
       new HtmlWebpackPlugin({
-        template: srcPathExtend("index.html")
+        template: srcPathExtend('index.html'),
       }),
       new MiniCssExtractPlugin({
         filename: 'style.css',
-      })
+      }),
     ],
     output: {
-      filename: "bundle.js"
+      filename: 'bundle.js',
     },
     devServer: {
-        port: 3000
+      port: 3000,
     },
-    stats: 'minimal'
+    stats: 'minimal',
   };
 };
